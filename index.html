@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BOOM BOX Fart Master ki friendd’s 25th 😭🎂</title>
+
+  <!-- Bootstrap CSS (optional but nice). If you want fully offline, tell me & I’ll remove CDN. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Fun font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#16151a;
+      --muted:#5f616b;
+      --paper:#ffffff;
+      --line: rgba(0,0,0,0.10);
+
+      /* funny-illustration palette */
+      --bg1:#fff6d9;   /* warm butter */
+      --bg2:#ffe8f2;   /* soft pink */
+      --bg3:#e9f7ff;   /* baby blue */
+      --accent:#ff5aa5;/* punch pink */
+      --accent2:#7c5cff;/* purple */
+      --accent3:#00c2a8;/* mint */
+
+      --shadow: 0 16px 50px rgba(0,0,0,0.12);
+      --shadow2: 0 10px 28px rgba(0,0,0,0.10);
+      --r: 22px;
+      --r2: 28px;
+    }
+
+    body{
+      margin:0;
+      font-family: "Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+
+      /* Cute illustrated background (dots + blobs) */
+      background:
+        radial-gradient(900px 520px at 15% 12%, rgba(255,90,165,0.18), transparent 60%),
+        radial-gradient(900px 520px at 85% 16%, rgba(124,92,255,0.16), transparent 60%),
+        radial-gradient(900px 520px at 45% 95%, rgba(0,194,168,0.12), transparent 60%),
+        radial-gradient(circle at 20px 20px, rgba(0,0,0,0.04) 2px, transparent 2px),
+        radial-gradient(circle at 60px 60px, rgba(0,0,0,0.035) 2px, transparent 2px),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      background-size: auto, auto, auto, 80px 80px, 80px 80px, auto;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* Views */
+    .view{
+      display:none;
+      min-height:100vh;
+      padding: 22px 0 30px;
+    }
+    .view.active{ display:block; }
+
+    .cardy{
+      background: rgba(255,255,255,0.86);
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: var(--r2);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Funny header bubble */
+    .bubble{
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(0,0,0,0.10);
+      border-radius: 999px;
+      padding: 10px 14px;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      box-shadow: var(--shadow2);
+      font-weight: 700;
+      color: rgba(0,0,0,0.78);
+    }
+
+    .title{
+      font-size: clamp(28px, 4.2vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.6px;
+      margin: 14px 0 10px;
+    }
+    .grad{
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+    .sub{
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 62ch;
+      margin: 0;
+    }
+
+    /* Choice cards */
+    .choice{
+      border-radius: var(--r2);
+      border: 2px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.88);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .2s ease;
+      position: relative;
+      overflow:hidden;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .choice:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.14);
+    }
+    .choice:active{ transform: translateY(-1px) scale(0.995); }
+
+    .choice small{
+      display:block;
+      color: rgba(0,0,0,0.60);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .choiceTitle{
+      font-weight: 800;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .chip{
+      display:inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.88);
+      font-weight: 700;
+      font-size: 12px;
+      color: rgba(0,0,0,0.72);
+    }
+
+    /* Back button */
+    .backBtn{
+      border: 2px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.92);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      transition: transform .08s ease;
+    }
+    .backBtn:active{ transform: scale(0.98); }
+
+    /* Note paper */
+    .paper{
+      background: rgba(255,255,255,0.92);
+      border: 2px dashed rgba(0,0,0,0.14);
+      border-radius: var(--r2);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      overflow:hidden;
+    }
+    .paper:before{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,90,165,0.12), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(124,92,255,0.10), transparent 55%),
+        radial-gradient(circle at 50% 80%, rgba(0,194,168,0.10), transparent 55%);
+      filter: blur(14px);
+      opacity: 0.9;
+      pointer-events:none;
+    }
+    .paper > *{ position: relative; z-index: 1; }
+
+    .noteText{
+      white-space: pre-line;
+      font-weight: 600;
+      color: rgba(0,0,0,0.75);
+      line-height: 1.7;
+      margin: 10px 0 0;
+      font-size: 16px;
+    }
+
+    /* Photo cards */
+    .photoCard{
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: 18px;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .photoCard img{
+      width:100%;
+      height: 240px;
+      object-fit: cover;
+      display:block;
+      background: rgba(0,0,0,0.04);
+    }
+    .cap{
+      padding: 10px 12px 14px;
+      border-top: 2px solid rgba(0,0,0,0.06);
+    }
+    .cap .t{
+      margin:0;
+      font-weight: 800;
+      font-size: 14px;
+      color: rgba(0,0,0,0.80);
+    }
+    .cap .n{
+      margin: 6px 0 0;
+      color: rgba(0,0,0,0.62);
+      font-weight: 600;
+      line-height: 1.4;
+      font-size: 13px;
+    }
+
+    /* Toast */
+    .toastBar{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(255,255,255,0.94);
+      border: 2px solid rgba(0,0,0,0.10);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow2);
+      font-weight: 800;
+      color: rgba(0,0,0,0.75);
+      display:none;
+      z-index: 999;
+    }
+    .toastBar.show{
+      display:block;
+      animation: toastIn .16s ease forwards;
+    }
+    @keyframes toastIn{
+      to{ transform: translateX(-50%) translateY(0); }
+    }
+
+    /* Emoji celebration */
+    .confetti{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: 998;
+      overflow:hidden;
+    }
+    .emo{
+      position:absolute;
+      opacity: 0;
+      animation: floatUp 1.25s ease forwards;
+      user-select:none;
+      will-change: transform, opacity;
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(0.9); opacity: 0; }
+      20%{ opacity: 1; }
+      100%{ transform: translateY(-150px) scale(1.05); opacity: 0; }
+    }
+
+    /* Lightbox for photos */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display:none;
+      place-items:center;
+      padding: 18px;
+      z-index: 1000;
+    }
+    .lightbox.open{ display:grid; }
+    .lightboxInner{
+      width: min(950px, 100%);
+      background: #fff;
+      border-radius: 20px;
+      overflow:hidden;
+      border: 2px solid rgba(255,255,255,0.35);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+    }
+    .lightboxInner img{
+      width:100%;
+      height: auto;
+      display:block;
+      max-height: 80vh;
+      object-fit: contain;
+      background: #111;
+    }
+    .lightboxBar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255,255,255,0.95);
+      border-top: 2px solid rgba(0,0,0,0.06);
+      font-weight: 800;
+    }
+    .xBtn{
+      border: 2px solid rgba(0,0,0,0.10);
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="confetti" id="confetti"></div>
+  <div class="toastBar" id="toastBar">🎉 Surprise!</div>
+
+  <!-- HOME -->
+  <section class="view active" id="home">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="bubble">😱 <span>Shreya’s <b>25th</b> is coming… <b>aaah!</b> 🎂</span></span>
+        <span class="chip">2 Jan • Birthday mode ON</span>
+      </div>
+
+      <div class="cardy mt-3 p-4">
+        <h1 class="title">
+          Happy <span class="grad">25th</span>, Shreya <span class="grad">(Sharwari)</span> 💗
+        </h1>
+        <p class="sub">
+
+        </p>
+
+        <div class="row g-3 mt-2">
+          <div class="col-12 col-md-6">
+            <div class="choice" id="giftChoice" role="button" tabindex="0" aria-label="Open gift photos">
+              <!-- Funny gift illustration -->
+              <svg width="100%" viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#ffe2f0"/>
+                    <stop offset="1" stop-color="#e6f7ff"/>
+                  </linearGradient>
+                  <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#ff6fae"/>
+                    <stop offset="1" stop-color="#ff9fc7"/>
+                  </linearGradient>
+                  <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#7c5cff"/>
+                    <stop offset="1" stop-color="#00c2a8"/>
+                  </linearGradient>
+                </defs>
+
+                <rect x="10" y="10" width="500" height="240" rx="26" fill="url(#g1)" opacity="0.55"/>
+                <g transform="translate(170,40)">
+                  <ellipse cx="90" cy="198" rx="110" ry="18" fill="rgba(0,0,0,0.12)"/>
+                  <rect x="20" y="82" width="140" height="120" rx="22" fill="#ffffff" opacity="0.9" stroke="rgba(0,0,0,0.12)" stroke-width="3"/>
+                  <rect x="12" y="60" width="156" height="28" rx="14" fill="url(#g2)" opacity="0.85"/>
+                  <rect x="84" y="82" width="14" height="120" rx="999" fill="url(#g3)" opacity="0.85"/>
+                  <rect x="20" y="134" width="140" height="14" rx="999" fill="url(#g3)" opacity="0.85"/>
+
+                  <!-- silly face -->
+                  <circle cx="68" cy="156" r="5" fill="rgba(0,0,0,0.65)"/>
+                  <circle cx="112" cy="156" r="5" fill="rgba(0,0,0,0.65)"/>
+                  <path d="M74 170 Q90 184 106 170" fill="none" stroke="rgba(0,0,0,0.55)" stroke-width="4" stroke-linecap="round"/>
+
+                  <!-- bow -->
+                  <path d="M90 60 C65 40 40 44 36 64 C32 84 60 90 78 74 Z" fill="rgba(255,255,255,0.75)"/>
+                  <path d="M90 60 C115 40 140 44 144 64 C148 84 120 90 102 74 Z" fill="rgba(255,255,255,0.75)"/>
+                  <circle cx="90" cy="64" r="10" fill="rgba(255,255,255,0.85)"/>
+                </g>
+
+                <text x="30" y="56" font-family="Fredoka, system-ui" font-size="24" fill="rgba(0,0,0,0.70)" font-weight="700">
+                  Tap the gift… if you dare 😭🎁
+                </text>
+              </svg>
+
+              <div class="choiceTitle">Open Gift....</div>
+              <!-- <small>Full page opens → Back button returns.</small> -->
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="choice" id="noteChoice" role="button" tabindex="0" aria-label="Open note page">
+              <!-- Funny note illustration -->
+              <svg width="100%" viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="n1" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#fff6d9"/>
+                    <stop offset="1" stop-color="#efe9ff"/>
+                  </linearGradient>
+                </defs>
+
+                <rect x="10" y="10" width="500" height="240" rx="26" fill="url(#n1)" opacity="0.55"/>
+
+                <g transform="translate(165,35)">
+                  <rect x="30" y="28" width="170" height="188" rx="22" fill="#fff" opacity="0.95" stroke="rgba(0,0,0,0.12)" stroke-width="3"/>
+                  <path d="M170 28 L200 58 L200 216 Q200 216 190 216 L170 216 Z" fill="rgba(255,90,165,0.08)"/>
+                  <path d="M170 28 L200 58 L170 58 Z" fill="rgba(255,90,165,0.16)"/>
+
+                  <!-- doodle lines -->
+                  <path d="M55 82 H170" stroke="rgba(0,0,0,0.22)" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M55 112 H150" stroke="rgba(0,0,0,0.18)" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M55 142 H165" stroke="rgba(0,0,0,0.18)" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M55 172 H120" stroke="rgba(0,0,0,0.18)" stroke-width="6" stroke-linecap="round"/>
+
+                  <!-- silly stamp -->
+                  <circle cx="82" cy="58" r="14" fill="rgba(124,92,255,0.20)"/>
+                  <text x="74" y="63" font-family="Fredoka, system-ui" font-size="14" fill="rgba(0,0,0,0.55)" font-weight="700">25</text>
+                </g>
+
+                <text x="30" y="56" font-family="Fredoka, system-ui" font-size="24" fill="rgba(0,0,0,0.70)" font-weight="700">
+                  Open note… it’s illegal-cute 💌😂
+                </text>
+              </svg>
+
+              <div class="choiceTitle">Open Note </div>
+              <small></small>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 d-flex flex-wrap gap-2 align-items-center">
+          <!-- <span class="chip">Tip: Press <b>Esc</b> to go back too</span>
+          <span class="chip">Photos must be named: <b>1_childhood.jpg, 2.jpg…</b></span> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTE VIEW -->
+  <section class="view" id="noteView">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <button class="backBtn" id="backFromNote">← Back</button>
+        <span class="bubble">💌 Note page (no outside distractions)</span>
+      </div>
+
+      <div class="paper">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div>
+            <h2 class="m-0" style="font-weight:700;">
+              Shreya… your <span class="grad">25th</span> is coming… <span style="color:var(--accent);">aaah 😭</span>
+            </h2>
+            <div class="mt-2" style="color:rgba(0,0,0,0.60); font-weight:600;">
+              (Sharwari edition 💗)
+            </div>
+          </div>
+          <button class="backBtn" id="copyNoteBtn" style="border-style:dashed;">
+            Copy note ✨
+          </button>
+        </div>
+
+        <p class="noteText" id="noteText"></p>
+
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <button class="backBtn" id="celebrateNote">Celebrate 🎉</button>
+          <!-- <span class="chip">This note is private. No previews outside 😌</span> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFT VIEW -->
+  <section class="view" id="giftView">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <button class="backBtn" id="backFromGift">← Back</button>
+        <span class="bubble">🎁 Gift page (tap a photo to zoom)</span>
+      </div>
+
+      <div class="cardy p-4">
+        <h2 class="m-0" style="font-weight:700;">
+          Photos unlocked ✅ <span class="grad">Sharwari</span> edition 📸😂
+        </h2>
+        <!-- <p class="sub mt-2">Tap any photo to view big. Back returns to the main page.</p> -->
+
+        <div class="row g-3 mt-1" id="photoGrid"></div>
+
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <button class="backBtn" id="celebrateGift">More celebration 😭🎂</button>
+          <!-- <span class="chip">If photo shows “Missing”, check file name</span> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightboxInner">
+      <img id="lightboxImg" alt="Photo preview">
+      <div class="lightboxBar">
+        <span id="lightboxCap">Photo</span>
+        <button class="xBtn" id="lightboxClose">Close ✕</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // ====== EDIT THESE TEXTS ======
+      const NOTE_TEXT =
+`Hey Sharwariiii (my Fart Monster ki pyari dosttt) 💗
+
+
+Your 25th is coming… aaah 😭😂
+
+Sharwari urf Shreya,
+tm meri Bangalore ki jaan...
+roommate bhi, aur woh insaan
+jiske saath “adulting” bhi thoda manageable lagta. #tumahari adulthood friend
+
+Room ka discipline?
+Hum dono ka same syllabus:
+Plan A = kal.
+Plan B = “kal pakka.”
+(Plan C kl nikalta hai aaj tabiyat  kharab lg rahi rehne dete.)
+
+Aur haan—Truffles ki date abhi hai,
+so priorities bilkul clear hain:
+Bills later jijs ke account  se,
+burger pehle,
+aur photos mein “mst happy” wala pose mandatory.
+
+Tm woh friend ho
+jo stress ko lecture nahi deti,
+seedha roast karke
+haste-haste halka kar deti hai.
+
+Sharwari urf Shreya,
+tm meri khushi ki soft si habit ho....
+Bangalore mein ghar jaisa jo feel aata,
+woh tm hi toh ho. 💛
+
+
+— from your friend`;
+
+      const PHOTOS = [
+        { src: "img/WhatsApp Image 2025-12-27 at 7.15.31 PM.jpeg", title: "Childhood 🥺", note: "Tiny Sharwari… illegal cute 😭💗" },
+        { src: "img/WhatsApp Image 2025-12-27 at 7.13.52 PM (2).jpeg",          title: "✨",   note: "This smile = instant serotonin." },
+        { src: "img/WhatsApp Image 2025-12-27 at 7.13.52 PM.jpeg",          title: " 😂",   note: "Main character energy, no debate." },
+        { src: "img/WhatsApp Image 2025-12-27 at 7.13.53 PM.jpeg",          title: "🫶",   note: "25 looks good on you (don’t argue)." },
+        { src: "img/WhatsApp Image 2025-12-27 at 7.13.52 PM (1).jpeg",          title: " 🎂",   note: "Laal pari madan kadi 💞" },
+      ];
+      // =============================
+
+      // Views
+      const home = document.getElementById("home");
+      const noteView = document.getElementById("noteView");
+      const giftView = document.getElementById("giftView");
+
+      function show(view){
+        [home, noteView, giftView].forEach(v => v.classList.remove("active"));
+        view.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      // Toast + emoji pop
+      const toastBar = document.getElementById("toastBar");
+      const confetti = document.getElementById("confetti");
+      const emojis = ["🎉","✨","💗","😂","😭","🎂","🌸","🫶","💞"];
+
+      let toastTimer = null;
+      function toast(msg){
+        toastBar.textContent = msg;
+        toastBar.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(()=>toastBar.classList.remove("show"), 1200);
+      }
+
+      function popEmojis(count = 22){
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        for(let i=0;i<count;i++){
+          const s = document.createElement("span");
+          s.className = "emo";
+          s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+          s.style.left = Math.floor(Math.random() * (w-30)) + "px";
+          s.style.top  = Math.floor(h*0.75 + Math.random()*90) + "px";
+          s.style.animationDelay = (Math.random()*0.14) + "s";
+          s.style.fontSize = (18 + Math.random()*16) + "px";
+          confetti.appendChild(s);
+          setTimeout(()=>s.remove(), 1400);
+        }
+      }
+
+      // Hook choices
+      const giftChoice = document.getElementById("giftChoice");
+      const noteChoice = document.getElementById("noteChoice");
+
+      // Note
+      const noteText = document.getElementById("noteText");
+      noteText.textContent = NOTE_TEXT;
+
+      // Photo grid
+      const photoGrid = document.getElementById("photoGrid");
+
+      function missingImg(name){
+        const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe2f0"/>
+      <stop offset="0.5" stop-color="#efe9ff"/>
+      <stop offset="1" stop-color="#e6fff8"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-family="system-ui" font-size="34" fill="#111" opacity="0.62">Missing: ${name}</text>
+  <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+        font-family="system-ui" font-size="16" fill="#111" opacity="0.45">Check file name + same folder</text>
+</svg>`;
+        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+      }
+
+      function renderPhotos(){
+        photoGrid.innerHTML = "";
+        PHOTOS.forEach((p, idx) => {
+          const col = document.createElement("div");
+          col.className = "col-12 col-md-6 col-lg-4";
+
+          col.innerHTML = `
+            <div class="photoCard" role="button" tabindex="0" data-idx="${idx}">
+              <img src="${p.src}" alt="${p.title}">
+              <div class="cap">
+                <p class="t">${p.title}</p>
+                <p class="n">${p.note}</p>
+              </div>
+            </div>
+          `;
+
+          const img = col.querySelector("img");
+          img.onerror = () => { img.src = missingImg(p.src); };
+
+          photoGrid.appendChild(col);
+        });
+      }
+      renderPhotos();
+
+      // Lightbox
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxCap = document.getElementById("lightboxCap");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      function openLightbox(p){
+        lightboxImg.src = p.src;
+        lightboxImg.onerror = () => { lightboxImg.src = missingImg(p.src); };
+        lightboxCap.textContent = `${p.title} • ${p.note}`;
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden","false");
+      }
+      function closeLightbox(){
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden","true");
+      }
+
+      photoGrid.addEventListener("click", (e) => {
+        const card = e.target.closest(".photoCard");
+        if(!card) return;
+        const idx = Number(card.getAttribute("data-idx"));
+        openLightbox(PHOTOS[idx]);
+      });
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (e) => { if(e.target === lightbox) closeLightbox(); });
+
+      // Navigation
+      giftChoice.addEventListener("click", () => {
+        show(giftView);
+        toast("🎁 Gift opened! Photos unlocked 😭💗");
+        popEmojis(26);
+      });
+
+      noteChoice.addEventListener("click", () => {
+        show(noteView);
+        toast("💌 Note opened! Don’t cry 😭");
+        popEmojis(22);
+      });
+
+      // Back buttons
+      document.getElementById("backFromNote").addEventListener("click", () => show(home));
+      document.getElementById("backFromGift").addEventListener("click", () => show(home));
+
+      // Copy note + celebrate
+      document.getElementById("copyNoteBtn").addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(NOTE_TEXT);
+          toast("✅ Note copied 💗");
+          popEmojis(14);
+        }catch{
+          toast("📋 Copy not supported here");
+        }
+      });
+
+      document.getElementById("celebrateNote").addEventListener("click", () => {
+        toast("🎂 25th is coming… aaah 😭🎉");
+        popEmojis(30);
+      });
+      document.getElementById("celebrateGift").addEventListener("click", () => {
+        toast("😂 HAPPY BDAY SHARWARI 💗");
+        popEmojis(34);
+      });
+
+      // Keyboard: Esc always goes back (or closes lightbox)
+      window.addEventListener("keydown", (e) => {
+        if(e.key === "Escape"){
+          if(lightbox.classList.contains("open")) return closeLightbox();
+          show(home);
+        }
+      });
+
+      // Allow Enter key on choices
+      [giftChoice, noteChoice].forEach(el => {
+        el.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            el.click();
+          }
+        });
+      });
+    });
+  </script>
+  
+  <footer>
+    <div> <center> <p> @prachi b. 2026</p></center></div>
+  </footer>
+</body>
+</html>
